@@ -9,4 +9,5 @@ gem 'puma'
 
 group :test do
   gem 'rack-test'
+  gem 'rake'
 end
