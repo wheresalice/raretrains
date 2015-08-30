@@ -4,7 +4,14 @@ This web application started life at Leeds Hack 2015, and summarises what servic
 
 It caches data locally, so you may find it doesn't pick up changes to services during the day.
 
-The source code for this site is available on request - it's pretty ugly as it was built for a hack day.  If you're interested, it's written in ruby/Sinatra.
+# Usage
+
+To run this locally you will need to set the following environment variables
+
+* RTT_USER
+* RTT_PASSWORD
+
+both of these are available from realtimetrains.co.uk
 
 # Changelog
 
