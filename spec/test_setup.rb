@@ -3,6 +3,7 @@ ENV['TMP'] = 'spec/data'
 require 'json'
 require 'minitest/autorun'
 require 'rack/test'
+require 'fileutils'
 require File.expand_path '../../findinteresting.rb', __FILE__
 
 # Clean out test tmp directory
@@ -100,6 +101,7 @@ arrival_data = {'services' => [{"locationDetail" =>
                                 "serviceType" => "train",
                                 "isPassenger" => true}]}
 
+FileUtils.mkdir_p(File.expand_path('../../tmp/test', __FILE__))
 File.write(File.expand_path('../../tmp/test/LDS-departures-2015-08-29.json', __FILE__), departure_data.to_json)
 File.write(File.expand_path('../../tmp/test/LDS-arrivals-2015-08-29.json', __FILE__), arrival_data.to_json)
 File.write(File.expand_path('../../tmp/test/LDS-departures-2015-08-28.json', __FILE__), departure_data.to_json)
