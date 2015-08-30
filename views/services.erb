@@ -1,0 +1,36 @@
+There are <%= services.count.to_i %> services <%= filter %>
+
+<table border=1 class="sortable-theme-bootstrap" data-sortable id="services">
+  <thead>
+  <tr>
+    <th>Identity</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Arrival</th>
+    <th>Departure</th>
+    <th>Operator</th>
+    <th data-sort-method='dotsep'>Platform</th>
+    <th class='no-sort'>Details</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% services.each do |service| %>
+      <tr>
+        <td><%= service['trainIdentity'] %></td>
+        <td><%= service['locationDetail']['origin'][0]['description'] %></td>
+        <td><%= service['locationDetail']['destination'][0]['description'] %></td>
+        <td><%= service['locationDetail']['gbttBookedArrival'] %></td>
+        <td><%= service['locationDetail']['gbttBookedDeparture'] %></td>
+        <td><%= service['atocCode'] %></td>
+        <td><%= service['locationDetail']['platform'] %></td>
+        <td>
+          <a href="http://www.realtimetrains.co.uk/train/<%= service['serviceUid'] %>/<%= Date.parse(service['runDate']).strftime("%Y/%m/%d") %>/advanced">RTT</a>
+        </td>
+      </tr>
+      </tbody>
+  <% end %>
+  </table>
+
+<script>
+  new Tablesort(document.getElementById('services'));
+</script>

@@ -1,0 +1,83 @@
+<h1><%= filter %> operators going through <%= station %> on <%= day %></h1>
+<table class="sortable-theme-bootstrap" data-sortable id="operators">
+  <thead>
+  <tr>
+    <th class='sort-default'>Operator</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% tocs.each do |toc| %>
+      <tr>
+        <td><a href="/<%= station %>/operator/<%= toc[0] %>"><%= toc[0] %></a></td>
+        <td><%= toc[1] %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<script>
+  new Tablesort(document.getElementById('operators'));
+</script>
+
+<h1><%= filter %> origins listed at <%= station %> on <%= day %></h1>
+<table class="sortable-theme-bootstrap" data-sortable id="origins">
+  <thead>
+  <tr>
+    <th class='sort-default'>Origin</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% origins.each do |origin| %>
+      <tr>
+        <td><a href="/<%= station %>/from/<%= origin[0] %>"><%= origin[0] %></a></td>
+        <td><%= origin[1] %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<script>
+  new Tablesort(document.getElementById('origins'));
+</script>
+
+<h1><%= filter %> destinations listed at <%= station %> on <%= day %></h1>
+<table class="sortable-theme-bootstrap" data-sortable id="destinations">
+  <thead>
+  <tr>
+    <th class='sort-default'>Origin</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% destinations.each do |dest| %>
+      <tr>
+        <td><a href="/<%= station %>/from/<%= dest[0] %>"><%= dest[0] %></a></td>
+        <td><%= dest[1] %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<script>
+  new Tablesort(document.getElementById('destinations'));
+</script>
+
+<h1><%= filter %> platforms in use at <%= station %> on <%= day %></h1>
+<table class="sortable-theme-bootstrap" data-sortable id="platforms">
+  <thead>
+  <tr>
+    <th data-sort-method='dotsep' class='sort-default'>Platform</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% platforms.each do |platform| %>
+      <tr>
+        <td><a href="/<%= station %>/platform/<%= platform[0] %>"><%= platform[0] %></a></td>
+        <td><%= platform[1] %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<script>
+  new Tablesort(document.getElementById('platforms'));
+</script>
