@@ -5,6 +5,7 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     json (1.8.3)
+    minitest (5.4.3)
     multi_xml (0.5.5)
     puma (2.13.4)
     rack (1.6.4)
@@ -25,6 +26,7 @@ PLATFORMS
 DEPENDENCIES
   httparty
   json
+  minitest
   puma
   rack-test
   rake
