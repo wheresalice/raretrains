@@ -42,7 +42,14 @@ end
 puts "#{run_date}: #{new_pairings.length} new services identified for #{station}"
 
 new_pairings.each do |p|
-  puts "#{run_date}: #{p[:origin]} to #{p[:destination]} run by #{p[:toc]}"
+  pairing_services = services.select do |s|
+    s['locationDetail']['origin'][0]['description'] == p[:origin] &&
+        s['locationDetail']['destination'][0]['description'] == p[:destination] &&
+        s['atocCode'] == p[:toc]
+  end
+  service = pairing_services[0]
+  service_rundate = Date.parse(service['runDate'])
+  puts "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]} http://www.realtimetrains.co.uk/train/#{service['serviceUid']}/#{service_rundate.strftime('%Y/%m/%d')}/advanced"
 end
 
 
