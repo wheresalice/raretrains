@@ -1,4 +1,5 @@
 require 'json'
+require 'httparty'
 module Helpers
   def get_rtt_workings(date = Date.today, station = 'LDS', mode='departures')
     return {'services' => []} unless station.match /^[A-Z]{3}$/
