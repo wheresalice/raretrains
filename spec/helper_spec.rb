@@ -8,9 +8,6 @@ class MyTest < MiniTest::Unit::TestCase
   def test_merge_services
     assert_equal merge_services([{'serviceUid' => 'abc123'}], [{'serviceUid' => 'abc123'}]).length, 1
     assert_equal merge_services([{'serviceUid' => 'abc123'}], [{'serviceUid' => 'xyz456'}]).length, 2
-    assert_equal merge_services(nil, nil).length, 0
-    assert_equal merge_services([{'serviceUid' => 'abc123'}], nil).length, 1
-    assert_equal merge_services(nil, [{'serviceUid' => 'abc123'}]).length, 1
   end
 
   def test_clean_tmp
@@ -43,11 +40,4 @@ class MyTest < MiniTest::Unit::TestCase
     assert_equal get_rtt_workings(Date.parse('2015-08-28'))['services'].length, 1
 
   end
-
-  def test_no_services
-    load_date('2015-08-29', 'KTL')
-    assert_empty @current_day_services
-    assert_empty @previous_day_services
-  end
-
 end

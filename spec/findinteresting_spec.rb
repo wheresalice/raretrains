@@ -90,11 +90,4 @@ class MyTest < MiniTest::Unit::TestCase
     assert last_response.ok?
     assert last_response.body.include?('LDS-arrivals-2015-08-28.json')
   end
-
-  def test_no_trains
-    get '/KTL?date=2015-08-29'
-    assert last_response.ok?
-    assert last_response.body.include?('distinct operators going through KTL on 2015-08-29')
-    assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
-  end
 end
