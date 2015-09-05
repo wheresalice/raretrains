@@ -36,8 +36,8 @@ module Helpers
   end
 
   def merge_services(departures, arrivals)
-    departures_hash = ::Hash[departures.map{|h| [h['serviceUid'], h]}]
-    arrivals_hash = ::Hash[arrivals.map{|h| [h['serviceUid'], h]}]
+    departures_hash = ::Hash[departures.to_a.map{|h| [h['serviceUid'], h]}]
+    arrivals_hash = ::Hash[arrivals.to_a.map{|h| [h['serviceUid'], h]}]
     return departures_hash.merge(arrivals_hash).values
   end
 

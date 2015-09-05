@@ -101,8 +101,21 @@ arrival_data = {'services' => [{"locationDetail" =>
                                 "serviceType" => "train",
                                 "isPassenger" => true}]}
 
+no_trains = {"location" => {
+    "name" => "Kirton Lindsey",
+    "crs" => "KTL",
+    "tiploc" => "KRTNLND"},
+             "filter" => nil,
+             "services" => nil
+}
+
 FileUtils.mkdir_p(File.expand_path('../../tmp/test', __FILE__))
 File.write(File.expand_path('../../tmp/test/LDS-departures-2015-08-29.json', __FILE__), departure_data.to_json)
 File.write(File.expand_path('../../tmp/test/LDS-arrivals-2015-08-29.json', __FILE__), arrival_data.to_json)
 File.write(File.expand_path('../../tmp/test/LDS-departures-2015-08-28.json', __FILE__), departure_data.to_json)
 File.write(File.expand_path('../../tmp/test/LDS-arrivals-2015-08-28.json', __FILE__), arrival_data.to_json)
+
+File.write(File.expand_path('../../tmp/test/KTL-departures-2015-08-29.json', __FILE__), no_trains.to_json)
+File.write(File.expand_path('../../tmp/test/KTL-arrivals-2015-08-29.json', __FILE__), no_trains.to_json)
+File.write(File.expand_path('../../tmp/test/KTL-departures-2015-08-28.json', __FILE__), no_trains.to_json)
+File.write(File.expand_path('../../tmp/test/KTL-arrivals-2015-08-28.json', __FILE__), no_trains.to_json)
