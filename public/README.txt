@@ -23,6 +23,18 @@ both of these are available from realtimetrains.co.uk
 
 * Handle changes during the day
 
+# Contributing
+
+You'll need ruby 2.2.something.
+
+Install dependencies
+
+    bundle install
+
+Run the app
+
+    heroku local
+
 # Thanks
 
 * Leeds Hack for giving me the time to work on this
