@@ -15,6 +15,8 @@ module Helpers
       user = ENV['RTT_USER']
       password = ENV['RTT_PASSWORD']
       begin
+        fail('RTT_USER not set') if ENV['RTT_USER'].nil
+        fail('RTT_PASSWORD not set') if ENV['RTT_PASSWORD'].nil
         response = HTTParty.get("http://#{user}:#{password}@api.rtt.io/api/v1/json/search/#{station}/#{date.strftime("%Y/%m/%d")}#{'/arrivals' if mode == 'arrivals'}")
         results = JSON.parse(response.body)
         results['date'] = date
