@@ -51,7 +51,7 @@
   <tbody>
   <% destinations.each do |dest| %>
       <tr>
-        <td><a href="/<%= station %>/from/<%= dest[0] %>"><%= dest[0] %></a></td>
+        <td><a href="/<%= station %>/to/<%= dest[0] %>"><%= dest[0] %></a></td>
         <td><%= dest[1] %></td>
       </tr>
   <% end %>
