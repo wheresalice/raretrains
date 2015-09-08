@@ -1,3 +1,5 @@
+# This isn't part of the main website, it's used to tweet out newly found trains and needs more work to be fully portable
+#
 require 'redis'
 require 'json'
 require 'date'
