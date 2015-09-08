@@ -10,7 +10,8 @@ require File.expand_path '../../findinteresting.rb', __FILE__
 Dir.glob(File.expand_path '../../tmp/test/*.json', __FILE__).each { |f| File.unlink f }
 
 # Generate known data
-departure_data = {'services' => [
+departure_data = {'date' => '2015-08-29',
+                  'services' => [
     {"locationDetail" =>
          {"realtimeActivated" => true,
           "tiploc" => "LEEDS",
@@ -61,7 +62,9 @@ departure_data = {'services' => [
            "workingTime" => "012700",
            "publicTime" => "0129"}]}]}
 
-arrival_data = {'services' => [{"locationDetail" =>
+arrival_data = {
+  'date' => '2015-08-29',
+  'services' => [{"locationDetail" =>
                                     {"realtimeActivated" => true,
                                      "tiploc" => "LEEDS",
                                      "crs" => "LDS",
@@ -102,7 +105,6 @@ arrival_data = {'services' => [{"locationDetail" =>
                                 "isPassenger" => true}]}
 
 FileUtils.mkdir_p(File.expand_path('../../tmp/test', __FILE__))
+
 File.write(File.expand_path('../../tmp/test/LDS-departures-2015-08-29.json', __FILE__), departure_data.to_json)
 File.write(File.expand_path('../../tmp/test/LDS-arrivals-2015-08-29.json', __FILE__), arrival_data.to_json)
-File.write(File.expand_path('../../tmp/test/LDS-departures-2015-08-28.json', __FILE__), departure_data.to_json)
-File.write(File.expand_path('../../tmp/test/LDS-arrivals-2015-08-28.json', __FILE__), arrival_data.to_json)

@@ -11,7 +11,7 @@ module Helpers
       puts "already got data for #{station} #{mode} for #{date}"
       results = JSON.parse(File.read(cache_path))
     else
-      return {'services' => []} if ENV['RACK_ENV'] == 'test'
+      return {'date' => date.strftime('%Y-%m-%d'), 'services' => []} if ENV['RACK_ENV'] == 'test'
       puts "getting data for #{station} #{mode} for #{date}"
       user = ENV['RTT_USER']
       password = ENV['RTT_PASSWORD']
@@ -43,22 +43,19 @@ module Helpers
     return departures_hash.merge(arrivals_hash).values
   end
 
-  def load_date(date=Date.today.to_s, station='LDS')
+  def load_date(date=Date.today.to_s, station='LDS', yesterday=false)
     date = date.nil? ? Date.today : Date.parse(date)
+    date = date - 1 if yesterday
 
-    current_day_services = get_rtt_workings(date, station.upcase, 'departures')['services']
-    current_day_arrivals = get_rtt_workings(date, station.upcase, 'arrivals')['services']
-    @current_day_services = merge_services(current_day_services, current_day_arrivals)
-    puts "Loaded #{@current_day_services.length} services for #{date}"
+    workings = get_rtt_workings(date, station.upcase, 'departures')
+    arrival_workings = get_rtt_workings(date, station.upcase, 'arrivals')
 
-    previous_day_services = get_rtt_workings(date - 1, station.upcase, 'departures')['services']
-    previous_day_arrivals = get_rtt_workings(date - 1, station.upcase, 'arrivals')['services']
-    @previous_day_services = merge_services(previous_day_services, previous_day_arrivals)
-    puts "Loaded #{@previous_day_services.length} services for #{date - 1}"
-
+    services = workings['services']
+    arrivals = arrival_workings['services']
     clean_tmp
-
-    return date
+    merged_services = merge_services(services, arrivals)
+    workings['services'] = merged_services
+    return workings
   end
 
 end

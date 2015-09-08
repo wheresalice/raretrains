@@ -46,23 +46,16 @@ class MyTest < MiniTest::Unit::TestCase
     assert last_response.body.include?("EM")
     refute last_response.body.include?("realtimetrains.co.uk/train")
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
-
-    get '/LDS/operator/TP?date=2015-08-28'
-    assert last_response.ok?
-    assert last_response.body.include?("TP")
-    assert last_response.body.include?("realtimetrains.co.uk/train/Y00244")
-    assert last_response.body.include?('realtimetrains.co.uk/train/Y00118')
-    assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
   end
 
   def test_origin_filter
-    get '/LDS/from/Ilkley?date=2015-08-28'
+    get '/LDS/from/Ilkley?date=2015-08-29'
     assert last_response.ok?
     assert last_response.body.include?('Ilkley')
     refute last_response.body.include?('realtimetrains.co.uk/train')
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
 
-    get '/LDS/from/Liverpool%20Lime%20Street?date=2015-08-28'
+    get '/LDS/from/Liverpool%20Lime%20Street?date=2015-08-29'
     assert last_response.ok?
     assert last_response.body.include?('Liverpool Lime Street')
     assert last_response.body.include?('realtimetrains.co.uk/train/Y00244')
@@ -71,13 +64,13 @@ class MyTest < MiniTest::Unit::TestCase
   end
 
   def test_destination_filter
-    get '/LDS/to/Ilkley?date=2015-08-28'
+    get '/LDS/to/Ilkley?date=2015-08-29'
     assert last_response.ok?
     assert last_response.body.include?('Ilkley')
     refute last_response.body.include?('realtimetrains.co.uk/train')
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
 
-    get '/LDS/to/York?date=2015-08-28'
+    get '/LDS/to/York?date=2015-08-29'
     assert last_response.ok?
     assert last_response.body.include?('York')
     assert last_response.body.include?('realtimetrains.co.uk/train/Y00244')
@@ -88,6 +81,15 @@ class MyTest < MiniTest::Unit::TestCase
   def test_cached_data
     get '/cached'
     assert last_response.ok?
-    assert last_response.body.include?('LDS-arrivals-2015-08-28.json')
+    assert last_response.body.include?('LDS-arrivals-2015-08-29.json')
+  end
+
+  def test_unique
+    get '/LDS/unique?date=2015-08-29'
+    assert last_response.ok?
+    assert last_response.body.include?("new operators going through LDS on 2015-08-29")
+    assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
+    assert last_response.body.include?('/to/York')
+    assert last_response.body.include?('/from/Liverpool')
   end
 end
