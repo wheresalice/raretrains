@@ -10,7 +10,8 @@ require File.expand_path '../../findinteresting.rb', __FILE__
 Dir.glob(File.expand_path '../../tmp/test/*.json', __FILE__).each { |f| File.unlink f }
 
 # Generate known data
-departure_data = {'date' => '2015-08-29',
+departure_data = {"location" => {"name" => "Leeds","crs" => "LDS","tiploc" => "LEEDS"},
+'date' => '2015-08-29',
                   'services' => [
     {"locationDetail" =>
          {"realtimeActivated" => true,
@@ -62,7 +63,7 @@ departure_data = {'date' => '2015-08-29',
            "workingTime" => "012700",
            "publicTime" => "0129"}]}]}
 
-arrival_data = {
+arrival_data = {"location" => {"name" => "Leeds","crs" => "LDS","tiploc" => "LEEDS"},
   'date' => '2015-08-29',
   'services' => [{"locationDetail" =>
                                     {"realtimeActivated" => true,

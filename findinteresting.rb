@@ -55,13 +55,15 @@ get '/:station' do
               :origins => origins,
               :destinations => destinations,
               :platforms => platforms,
-              :station => params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+              :station => data.dig('location','name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
           },
       :layout => true
 end
 
 get '/:station/unique' do
-  today_services = load_date(params[:date], params[:station])['services']
+
+  today_data = load_date(params[:date], params[:station])
+  today_services = today_data['services']
   yesterday_services = load_date(params[:date], params[:station], true)['services']
 
 
@@ -77,7 +79,7 @@ get '/:station/unique' do
               :origins => origins,
               :destinations => destinations,
               :platforms => platforms,
-              :station => params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+              :station => today_data.dig('location','name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
           },
       :layout => true
 end

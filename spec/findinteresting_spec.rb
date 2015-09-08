@@ -19,7 +19,7 @@ class MyTest < MiniTest::Unit::TestCase
   def test_lds_with_date
     get '/LDS?date=2015-08-29'
     assert last_response.ok?
-    assert last_response.body.include?("distinct operators going through LDS on 2015-08-29")
+    assert last_response.body.include?("distinct operators going through Leeds on 2015-08-29")
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
     assert last_response.body.include?('/to/York')
     assert last_response.body.include?('/from/Liverpool')
@@ -87,7 +87,7 @@ class MyTest < MiniTest::Unit::TestCase
   def test_unique
     get '/LDS/unique?date=2015-08-29'
     assert last_response.ok?
-    assert last_response.body.include?("new operators going through LDS on 2015-08-29")
+    assert last_response.body.include?("new operators going through Leeds on 2015-08-29")
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
     assert last_response.body.include?('/to/York')
     assert last_response.body.include?('/from/Liverpool')
