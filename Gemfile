@@ -12,3 +12,7 @@ group :test do
   gem 'rake'
   gem 'minitest'
 end
+
+group :development do
+  gem 'redis'
+end
