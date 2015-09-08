@@ -9,7 +9,7 @@
   <tbody>
   <% tocs.each do |toc| %>
       <tr>
-        <td><a href="/<%= station %>/operator/<%= toc[0] %>"><%= toc[0] %></a></td>
+        <td><a href="/<%= station_code %>/operator/<%= toc[0] %>"><%= toc[0] %></a></td>
         <td><%= toc[1] %></td>
       </tr>
   <% end %>
@@ -30,7 +30,7 @@
   <tbody>
   <% origins.each do |origin| %>
       <tr>
-        <td><a href="/<%= station %>/from/<%= origin[0] %>"><%= origin[0] %></a></td>
+        <td><a href="/<%= station_code %>/from/<%= origin[0] %>"><%= origin[0] %></a></td>
         <td><%= origin[1] %></td>
       </tr>
   <% end %>
@@ -51,7 +51,7 @@
   <tbody>
   <% destinations.each do |dest| %>
       <tr>
-        <td><a href="/<%= station %>/to/<%= dest[0] %>"><%= dest[0] %></a></td>
+        <td><a href="/<%= station_code %>/to/<%= dest[0] %>"><%= dest[0] %></a></td>
         <td><%= dest[1] %></td>
       </tr>
   <% end %>
@@ -72,7 +72,7 @@
   <tbody>
   <% platforms.each do |platform| %>
       <tr>
-        <td><a href="/<%= station %>/platform/<%= platform[0] %>"><%= platform[0] %></a></td>
+        <td><a href="/<%= station_code %>/platform/<%= platform[0] %>"><%= platform[0] %></a></td>
         <td><%= platform[1] %></td>
       </tr>
   <% end %>

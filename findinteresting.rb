@@ -55,7 +55,9 @@ get '/:station' do
               :origins => origins,
               :destinations => destinations,
               :platforms => platforms,
-              :station => data.dig('location','name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+              :station => data.dig('location','name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, ''),
+              :station_code => data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+
           },
       :layout => true
 end
@@ -79,7 +81,8 @@ get '/:station/unique' do
               :origins => origins,
               :destinations => destinations,
               :platforms => platforms,
-              :station => today_data.dig('location','name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
+              :station => today_data.dig('location','name') || today_data.gsub(/[^0-9A-Za-z\ ]/, ''),
+              :station_code => today_data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
           },
       :layout => true
 end
