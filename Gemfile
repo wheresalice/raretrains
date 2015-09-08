@@ -15,4 +15,5 @@ end
 
 group :development do
   gem 'redis'
+  gem 'twitter'
 end

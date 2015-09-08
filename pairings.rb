@@ -1,6 +1,8 @@
 require 'redis'
 require 'json'
 require 'date'
+require 'twitter'
+
 require_relative 'lib/helpers'
 
 include Helpers
@@ -41,6 +43,17 @@ end
 
 #puts "#{run_date}: #{new_pairings.length} new services identified for #{station}"
 
+client = Twitter::REST::Client.new do |config|
+  config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
+  config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
+  config.access_token        = ENV['TWITTER_ACCESS_TOKEN']
+  config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
+end
+
+if new_pairings.length == 0
+  client.update("#{Date.today.strftime('%Y-%m-%d')}: No new services identified for today")
+end
+
 new_pairings.each do |p|
   pairing_services = services.select do |s|
     s['locationDetail']['origin'][0]['description'] == p[:origin] &&
@@ -49,5 +62,7 @@ new_pairings.each do |p|
   end
   service = pairing_services[0]
   service_rundate = Date.parse(service['runDate'])
-  puts "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]} http://www.realtimetrains.co.uk/train/#{service['serviceUid']}/#{service_rundate.strftime('%Y/%m/%d')}/advanced"
+  message =  "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]} http://www.realtimetrains.co.uk/train/#{service['serviceUid']}/#{service_rundate.strftime('%Y/%m/%d')}/advanced"
+  puts message
+  client.update(message)
 end
