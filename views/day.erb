@@ -1,5 +1,5 @@
 <h1><%= filter %> operators going through <%= station %> on <%= day %></h1>
-<table class="sortable-theme-bootstrap" data-sortable id="operators">
+<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="operators">
   <thead>
   <tr>
     <th class='sort-default'>Operator</th>
@@ -20,7 +20,7 @@
 </script>
 
 <h1><%= filter %> origins listed at <%= station %> on <%= day %></h1>
-<table class="sortable-theme-bootstrap" data-sortable id="origins">
+<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="origins">
   <thead>
   <tr>
     <th class='sort-default'>Origin</th>
@@ -41,7 +41,7 @@
 </script>
 
 <h1><%= filter %> destinations listed at <%= station %> on <%= day %></h1>
-<table class="sortable-theme-bootstrap" data-sortable id="destinations">
+<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="destinations">
   <thead>
   <tr>
     <th class='sort-default'>Origin</th>
@@ -51,7 +51,7 @@
   <tbody>
   <% destinations.each do |dest| %>
       <tr>
-        <td><a href="/<%= station %>/from/<%= dest[0] %>"><%= dest[0] %></a></td>
+        <td><a href="/<%= station %>/to/<%= dest[0] %>"><%= dest[0] %></a></td>
         <td><%= dest[1] %></td>
       </tr>
   <% end %>
@@ -62,7 +62,7 @@
 </script>
 
 <h1><%= filter %> platforms in use at <%= station %> on <%= day %></h1>
-<table class="sortable-theme-bootstrap" data-sortable id="platforms">
+<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="platforms">
   <thead>
   <tr>
     <th data-sort-method='dotsep' class='sort-default'>Platform</th>

@@ -21,6 +21,8 @@ class MyTest < MiniTest::Unit::TestCase
     assert last_response.ok?
     assert last_response.body.include?("distinct operators going through LDS on 2015-08-29")
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
+    assert last_response.body.include?('/to/York')
+    assert last_response.body.include?('/from/Liverpool')
   end
 
   def test_platform_filter
