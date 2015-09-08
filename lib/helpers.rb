@@ -22,6 +22,7 @@ module Helpers
         results['station'] = station
         results['mode'] = mode
         results['_id'] = "#{station}-#{mode}-#{date.strftime("%Y-%m-%d")}"
+        results['services'] = results['services'].to_a
         File.write(cache_path, results.to_json)
       rescue => e
         puts e
