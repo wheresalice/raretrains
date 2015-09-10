@@ -24,8 +24,13 @@ module Helpers
         results['_id'] = "#{station}-#{mode}-#{date.strftime("%Y-%m-%d")}"
         results['services'] = results['services'].to_a
         File.write(cache_path, results.to_json)
+        flash.now['bg-info'] = 'Downloaded new data' if (defined? flash)
+        if results['error']
+          flash.now['bg-danger'] = results['error'] if (defined? flash)
+        end
       rescue => e
         puts e
+        flash.now['bg-danger'] = e if (defined? flash)
         results = {'services' => []}
       end
     end

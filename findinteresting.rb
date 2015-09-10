@@ -1,7 +1,11 @@
 require 'json'
 require 'httparty'
 require 'sinatra'
+require 'sinatra/flash'
+
 require File.expand_path '../lib/helpers.rb', __FILE__
+
+enable :sessions
 
 helpers do
   include Helpers
