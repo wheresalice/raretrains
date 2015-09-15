@@ -7,6 +7,7 @@ gem 'httparty'
 gem 'sinatra'
 gem 'puma'
 gem 'sinatra-flash'
+gem 'logglier', '~> 0.2.11'
 
 group :test do
   gem 'rack-test'
