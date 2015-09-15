@@ -56,7 +56,7 @@ get '/:station' do
   station =  data.dig('location','name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
 
-  @log.info({:station => station_code}) if @log
+  @log.info(:station => station_code, :description => station) if @log
 
   erb :day, :locals => {
               :filter => 'distinct',
@@ -86,7 +86,7 @@ get '/:station/unique' do
   station = today_data.dig('location','name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = today_data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
 
-  @log.info({:station => station_code, :unique => true}) if @log
+  @log.info(:station => station_code, :unique => true, :description => station) if @log
 
   erb :day, :locals => {
               :filter => 'new',
