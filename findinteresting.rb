@@ -2,14 +2,12 @@ require 'json'
 require 'httparty'
 require 'sinatra'
 require 'sinatra/flash'
-require 'logglier'
 
 require File.expand_path '../lib/helpers.rb', __FILE__
 
 enable :sessions
 
 helpers do
-  @log = Logglier.new(ENV['LOGGLY'], :threaded => true, :format => :json) if ENV['LOGGLY']
   include Helpers
   class Hash
     def dig(*path)
@@ -56,7 +54,6 @@ get '/:station' do
   station =  data.dig('location','name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
 
-  @log.info(:station => station_code, :description => station) if @log
 
   erb :day, :locals => {
               :filter => 'distinct',
@@ -85,8 +82,6 @@ get '/:station/unique' do
   platforms = newly_appeared(today_services, yesterday_services,'locationDetail','platform')
   station = today_data.dig('location','name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = today_data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
-
-  @log.info(:station => station_code, :unique => true, :description => station) if @log
 
   erb :day, :locals => {
               :filter => 'new',
