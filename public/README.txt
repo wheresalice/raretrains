@@ -1,6 +1,8 @@
 # Leeds Trains
 
-This web application started life at Leeds Hack 2015, and summarises what services are running through a given train station.  It defaults to LDS, but can run for any station with a CRS code.
+This web application started life at Leeds Hack 2015, and summarises what services are running through a given train station.
+
+You can provide any CRS code that network rail knows about.
 
 It caches data locally, so you may find it doesn't pick up changes to services during the day.
 

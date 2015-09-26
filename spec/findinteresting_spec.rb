@@ -9,10 +9,9 @@ class MyTest < MiniTest::Unit::TestCase
 
   def test_home_redirect
     get '/'
-    follow_redirect!
-    assert_equal "http://example.org/LDS", last_request.url
+    assert_equal "http://example.org/", last_request.url
     assert last_response.ok?
-    assert last_response.body.include?("distinct operators going through LDS on #{Date.today.strftime('%Y-%m-%d')}")
+    refute last_response.body.include?("distinct operators going through LDS on #{Date.today.strftime('%Y-%m-%d')}")
     assert last_response.body.include?('All data from <a href="http://www.realtimetrains.co.uk/">Realtime Trains</a>')
   end
 

@@ -32,7 +32,10 @@ helpers do
 end
 
 get '/' do
-  redirect('/LDS')
+  erb :home, :locals => {
+          :date => Date.today.strftime('%Y-%m-%d')
+           },
+      :layout => true
 end
 
 get '/cached' do
