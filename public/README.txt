@@ -13,15 +13,7 @@ To run this locally you will need to set the following environment variables
 
 both of these are available from realtimetrains.co.uk
 
-# Changelog
-
-* 2015-08-30 Make tables sortable
-* 2015-08-29 Handle spaces in station names, accept arbitrary dates for testing, accept arbitrary stations, handle arrivals
-* 2015-08-23 Fixed caching so it actually pulls in data for new days and wrote this README
-
-# TODO
-
-* Handle changes during the day
+if you do not have an api key, then you can generate some minimal fake data for Leeds for the current day using ./bin/generate_dev_data.rb
 
 # Contributing
 
