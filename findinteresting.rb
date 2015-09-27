@@ -52,9 +52,9 @@ get '/:station' do
   origins = todays_uniques(services, 'locationDetail', 'origin', 'description').sort
   destinations = todays_uniques(services, 'locationDetail', 'destination', 'description').sort
   platforms = todays_uniques(services, 'locationDetail', 'platform')
+  service_types = todays_uniques(services, 'serviceType').sort
   station = data.dig('location', 'name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
-
 
   erb :day, :locals => {
               :filter => '',
@@ -63,6 +63,7 @@ get '/:station' do
               :origins => origins,
               :destinations => destinations,
               :platforms => platforms,
+              :service_types => service_types,
               :station => station,
               :station_code => station_code
 
@@ -81,7 +82,8 @@ get '/:station/unique' do
   origins = newly_appeared(today_services, yesterday_services, 'locationDetail', 'origin', 'description').sort
   destinations = newly_appeared(today_services, yesterday_services, 'locationDetail', 'destination', 'description').sort
   platforms = newly_appeared(today_services, yesterday_services, 'locationDetail', 'platform')
-  station = today_data.dig('location', 'name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
+  service_types = newly_appeared(today_services, yesterday_services, 'serviceType')
+  station = today_data.dig('location', 'name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = today_data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
 
   erb :day, :locals => {
@@ -91,6 +93,7 @@ get '/:station/unique' do
               :origins => origins,
               :destinations => destinations,
               :platforms => platforms,
+              :service_types => service_types,
               :station => station,
               :station_code => station_code
           },
@@ -133,6 +136,16 @@ get '/:station/operator/:operator' do
   erb :services, :locals => {
                    :services => services,
                    :filter => "run by #{params[:operator].gsub(/[^0-9A-Za-z\ ]/, '')} from #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['data']}"
+               },
+      :layout => true
+end
+
+get '/:station/type/:type' do
+  data = load_date(params[:date], params[:station])
+  services = data['services'].select { |service| service.dig('serviceType') == params['type'] }
+  erb :services, :locals => {
+                   :services => services,
+                   :filter => "#{params[:type].gsub(/[^0-9A-Za-z\ ]/, '')} services from #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['data']}"
                },
       :layout => true
 end
