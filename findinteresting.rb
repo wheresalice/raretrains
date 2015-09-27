@@ -57,7 +57,7 @@ get '/:station' do
 
 
   erb :day, :locals => {
-              :filter => 'distinct',
+              :filter => '',
               :day => data['date'],
               :tocs => tocs,
               :origins => origins,

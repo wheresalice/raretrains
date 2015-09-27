@@ -1,85 +1,131 @@
-<h1><%= filter %> operators going through <%= station %> on <%= day %></h1>
-<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="operators">
-  <thead>
-  <tr>
-    <th class='sort-default'>Operator</th>
-    <th>Count</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% tocs.each do |toc| %>
-      <tr>
-        <td><a href="/<%= station_code %>/operator/<%= toc[0] %>" class="serviceslink"><%= toc[0] %></a></td>
-        <td><%= toc[1] %></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
-<script>
-  new Tablesort(document.getElementById('operators'));
-</script>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3><%= filter %> operators going through <%= station %> on <%= day %></h3>
+        <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="operators">
+          <thead>
+          <tr>
+            <th class='sort-default'>Operator</th>
+            <th>Count</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% tocs.each do |toc| %>
+              <tr>
+                <td><a href="/<%= station_code %>/operator/<%= toc[0] %>" class="serviceslink"><%= toc[0] %></a></td>
+                <td><%= toc[1] %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <script>
+            new Tablesort(document.getElementById('operators'));
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h1><%= filter %> origins listed at <%= station %> on <%= day %></h1>
-<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="origins">
-  <thead>
-  <tr>
-    <th class='sort-default'>Origin</th>
-    <th>Count</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% origins.each do |origin| %>
-      <tr>
-        <td><a href="/<%= station_code %>/from/<%= origin[0] %>" class="serviceslink"><%= origin[0] %></a></td>
-        <td><%= origin[1] %></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
-<script>
-  new Tablesort(document.getElementById('origins'));
-</script>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3><%= filter %> origins listed at <%= station %> on <%= day %></h3>
+        <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="origins">
+          <thead>
+          <tr>
+            <th class='sort-default'>Origin</th>
+            <th>Count</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% origins.each do |origin| %>
+              <tr>
+                <td><a href="/<%= station_code %>/from/<%= origin[0] %>" class="serviceslink"><%= origin[0] %></a></td>
+                <td><%= origin[1] %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <script>
+            new Tablesort(document.getElementById('origins'));
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h1><%= filter %> destinations listed at <%= station %> on <%= day %></h1>
-<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="destinations">
-  <thead>
-  <tr>
-    <th class='sort-default'>Origin</th>
-    <th>Count</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% destinations.each do |dest| %>
-      <tr>
-        <td><a href="/<%= station_code %>/to/<%= dest[0] %>" class="serviceslink"><%= dest[0] %></a></td>
-        <td><%= dest[1] %></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
-<script>
-  new Tablesort(document.getElementById('destinations'));
-</script>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3><%= filter %> destinations listed at <%= station %> on <%= day %></h3>
+        <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="destinations">
+          <thead>
+          <tr>
+            <th class='sort-default'>Origin</th>
+            <th>Count</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% destinations.each do |dest| %>
+              <tr>
+                <td><a href="/<%= station_code %>/to/<%= dest[0] %>" class="serviceslink"><%= dest[0] %></a></td>
+                <td><%= dest[1] %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <script>
+            new Tablesort(document.getElementById('destinations'));
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h1><%= filter %> platforms in use at <%= station %> on <%= day %></h1>
-<table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="platforms">
-  <thead>
-  <tr>
-    <th data-sort-method='dotsep' class='sort-default'>Platform</th>
-    <th>Count</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% platforms.each do |platform| %>
-      <tr>
-        <td><a href="/<%= station_code %>/platform/<%= platform[0] %>" class="serviceslink"><%= platform[0] %></a></td>
-        <td><%= platform[1] %></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
-<script>
-  new Tablesort(document.getElementById('platforms'));
-</script>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3><%= filter %> platforms in use at <%= station %> on <%= day %></h3>
+        <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped table-condensed sortable-theme-bootstrap" data-sortable id="platforms">
+          <thead>
+          <tr>
+            <th data-sort-method='dotsep' class='sort-default'>Platform</th>
+            <th>Count</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% platforms.each do |platform| %>
+              <tr>
+                <td><a href="/<%= station_code %>/platform/<%= platform[0] %>" class="serviceslink"><%= platform[0] %></a></td>
+                <td><%= platform[1] %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <script>
+          new Tablesort(document.getElementById('platforms'));
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <p>Remove the date parameter if you want a bookmark for the current date.</p>

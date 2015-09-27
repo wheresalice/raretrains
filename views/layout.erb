@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -18,55 +19,11 @@
   <script src="/vendor/js/tablesort.numeric.js"></script>
   <script src="/vendor/js/tablesort.dotsep.js"></script>
   <script src="/vendor/js/tablesort.date.js"></script>
+  <link rel="stylesheet" href="/css/trains.css">
   <style>
-      body {
-          padding-top: 70px;
-      }
 
-      th.sort-header::-moz-selection {
-          background: transparent;
-      }
-
-      th.sort-header::selection {
-          background: transparent;
-      }
-
-      th.sort-header {
-          cursor: pointer;
-      }
-
-      th.sort-header::-moz-selection,
-      th.sort-header::selection {
-          background: transparent;
-      }
-
-      table th.sort-header:after {
-          content: '';
-          float: right;
-          margin-top: 7px;
-          border-width: 0 4px 4px;
-          border-style: solid;
-          border-color: #404040 transparent;
-          visibility: hidden;
-      }
-
-      table th.sort-header:hover:after {
-          visibility: visible;
-      }
-
-      table th.sort-up:after,
-      table th.sort-down:after,
-      table th.sort-down:hover:after {
-          visibility: visible;
-          opacity: 0.4;
-      }
-
-      table th.sort-up:after {
-          border-bottom: none;
-          border-width: 4px 4px 0;
-      }
   </style>
-  <title>Leeds Train Workings</title>
+  <title>Train Workings</title>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -78,7 +35,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Leeds Workings</a>
+      <a class="navbar-brand" href="/">Train Workings</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
