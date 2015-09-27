@@ -28,7 +28,10 @@
             <td>
               <a href="http://www.realtimetrains.co.uk/train/<%= service['serviceUid'] %>/<%= Date.parse(service['runDate']).strftime("%Y/%m/%d") %>/advanced">RTT</a>
             </td>
-            <td><% unless service['locationDetail']['cancelReasonShortText'].nil? %><span title="<%= service['locationDetail']['cancelReasonLongText'] %>" data-toggle="tooltip" data-placement="right" ><span class="glyphicon glyphicon-warning-sign"></span><%= service['locationDetail']['cancelReasonCode'] %></span><% end %></td>
+            <td>
+              <%= service['serviceType'] unless service['serviceType'] == 'train' %>
+              <% unless service['locationDetail']['cancelReasonShortText'].nil? %><span title="<%= service['locationDetail']['cancelReasonLongText'] %>" data-toggle="tooltip" data-placement="right" ><span class="glyphicon glyphicon-warning-sign"></span><%= service['locationDetail']['cancelReasonCode'] %></span><% end %>
+            </td>
 
           </tr>
           </tbody>
