@@ -11,10 +11,14 @@ $('.serviceslink').each(function (i) {
 $('#station_button').click(function () {
     var station = $('#station')[0].value;
     var date = $('#date')[0].value;
+    var datestr = '';
+    if (date != '') {
+        datestr = '?date=' + date;
+    }
     if ($('#unique')[0].checked == true) {
-        location.href = '/' + station + '/unique' + '?date=' + date;
+        location.href = '/' + station + '/unique' + datestr;
     } else {
-        location.href = '/' + station + '?date=' + date;
+        location.href = '/' + station + datestr;
     }
 });
 

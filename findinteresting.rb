@@ -26,15 +26,13 @@ helpers do
   end
 
   def newly_appeared(today, yesterday, *list)
-    diff = today.map {|service| service.dig(*list)}.compact.sort.uniq - yesterday.map {|service| service.dig(*list)}
-    diff.compact.sort.uniq.map{|d| [d, '']}
+    diff = today.map { |service| service.dig(*list) }.compact.sort.uniq - yesterday.map { |service| service.dig(*list) }
+    diff.compact.sort.uniq.map { |d| [d, ''] }
   end
 end
 
 get '/' do
-  erb :home, :locals => {
-          :date => Date.today.strftime('%Y-%m-%d')
-           },
+  erb :home,
       :layout => true
 end
 
@@ -51,10 +49,10 @@ get '/:station' do
   data = load_date(params[:date], params[:station])
   services = data['services']
   tocs = todays_uniques(services, 'atocCode').sort
-  origins = todays_uniques(services, 'locationDetail','origin','description').sort
-  destinations = todays_uniques(services, 'locationDetail','destination','description').sort
-  platforms = todays_uniques(services, 'locationDetail','platform')
-  station =  data.dig('location','name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+  origins = todays_uniques(services, 'locationDetail', 'origin', 'description').sort
+  destinations = todays_uniques(services, 'locationDetail', 'destination', 'description').sort
+  platforms = todays_uniques(services, 'locationDetail', 'platform')
+  station = data.dig('location', 'name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
 
 
@@ -79,11 +77,11 @@ get '/:station/unique' do
   yesterday_services = load_date(params[:date], params[:station], true)['services']
 
 
-  tocs = newly_appeared(today_services, yesterday_services,'atocCode').sort
-  origins = newly_appeared(today_services, yesterday_services,'locationDetail','origin','description').sort
-  destinations = newly_appeared(today_services, yesterday_services,'locationDetail','destination','description').sort
-  platforms = newly_appeared(today_services, yesterday_services,'locationDetail','platform')
-  station = today_data.dig('location','name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
+  tocs = newly_appeared(today_services, yesterday_services, 'atocCode').sort
+  origins = newly_appeared(today_services, yesterday_services, 'locationDetail', 'origin', 'description').sort
+  destinations = newly_appeared(today_services, yesterday_services, 'locationDetail', 'destination', 'description').sort
+  platforms = newly_appeared(today_services, yesterday_services, 'locationDetail', 'platform')
+  station = today_data.dig('location', 'name') || today_data.gsub(/[^0-9A-Za-z\ ]/, '')
   station_code = today_data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
 
   erb :day, :locals => {
