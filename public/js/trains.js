@@ -37,4 +37,8 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
         $this.removeClass('panel-collapsed');
         $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
     }
-})
+});
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});

@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-10 col-md-offset-1">
     There are <%= services.count.to_i %> services <%= filter %>
     <table border=1 class="table-striped table-condensed sortable-theme-bootstrap" data-sortable id="services">
       <thead>
@@ -12,6 +12,7 @@
         <th>Operator</th>
         <th data-sort-method='dotsep'>Platform</th>
         <th class='no-sort'>Details</th>
+        <th>Status</th>
       </tr>
       </thead>
       <tbody>
@@ -27,6 +28,8 @@
             <td>
               <a href="http://www.realtimetrains.co.uk/train/<%= service['serviceUid'] %>/<%= Date.parse(service['runDate']).strftime("%Y/%m/%d") %>/advanced">RTT</a>
             </td>
+            <td><% unless service['locationDetail']['cancelReasonShortText'].nil? %><span title="<%= service['locationDetail']['cancelReasonLongText'] %>" data-toggle="tooltip" data-placement="right" ><span class="glyphicon glyphicon-warning-sign"></span><%= service['locationDetail']['cancelReasonCode'] %></span><% end %></td>
+
           </tr>
           </tbody>
       <% end %>
