@@ -1,11 +1,21 @@
-<%= erb :day_list, :locals => { :list_type => 'operator', :items => tocs, :uri_part => 'operator', :filter => filter, :station => station, :day => day, :station_code => station_code } %>
+<div class="pull-right">
+  <b>Filters:</b>
+<% split_path = request.path_info.split('/') %>
+<% if split_path[2] == 'unique' %>
+    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span><span class="sr-only">Ticked:</span> <a href="/<%= split_path[1] %>">New since yesterday</a>
+<% else %>
+    <a href="/<%= split_path[1] %>/unique">New since yesterday</a>
+<% end %>
+</div>
 
-<%= erb :day_list, :locals => { :list_type => 'origin', :items => origins, :uri_part => 'from', :filter => filter, :station => station, :day => day, :station_code => station_code } %>
+<%= erb :day_list, :locals => {:list_type => 'operator', :items => tocs, :uri_part => 'operator', :filter => filter, :station => station, :day => day, :station_code => station_code} %>
 
-<%= erb :day_list, :locals => { :list_type => 'destination', :items => destinations, :uri_part => 'to', :filter => filter, :station => station, :day => day, :station_code => station_code } %>
+<%= erb :day_list, :locals => {:list_type => 'origin', :items => origins, :uri_part => 'from', :filter => filter, :station => station, :day => day, :station_code => station_code} %>
 
-<%= erb :day_list, :locals => { :list_type => 'platform', :items => platforms, :uri_part => 'platform', :filter => filter, :station => station, :day => day, :station_code => station_code } %>
+<%= erb :day_list, :locals => {:list_type => 'destination', :items => destinations, :uri_part => 'to', :filter => filter, :station => station, :day => day, :station_code => station_code} %>
 
-<%= erb :day_list, :locals => { :list_type => 'type', :items => service_types, :uri_part => 'type', :filter => filter, :station => station, :day => day, :station_code => station_code } %>
+<%= erb :day_list, :locals => {:list_type => 'platform', :items => platforms, :uri_part => 'platform', :filter => filter, :station => station, :day => day, :station_code => station_code} %>
+
+<%= erb :day_list, :locals => {:list_type => 'type', :items => service_types, :uri_part => 'type', :filter => filter, :station => station, :day => day, :station_code => station_code} %>
 
 <p>Remove the date parameter if you want a bookmark for the current date.</p>
