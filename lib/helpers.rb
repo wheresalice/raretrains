@@ -2,7 +2,7 @@ require 'json'
 require 'httparty'
 module Helpers
   def get_rtt_workings(date = Date.today, station = 'LDS', mode='departures')
-    return {'services' => []} unless station.match /^[A-Z]{3}$/
+    station = station.upcase.gsub(/[^0-9A-Z\ ]/, '')
     tmp_dir = File.join('tmp', ENV['RACK_ENV'])
 
     Dir.mkdir(tmp_dir) unless File.directory?(tmp_dir)
