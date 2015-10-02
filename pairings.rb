@@ -52,10 +52,6 @@ client = Twitter::REST::Client.new do |config|
   config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
 end
 
-if new_pairings.length == 0
-  client.update("#{Date.today.strftime('%Y-%m-%d')}: No new services identified for today")
-end
-
 new_pairings.each do |p|
   pairing_services = services.select do |s|
     s['locationDetail']['origin'][0]['description'] == p[:origin] &&
