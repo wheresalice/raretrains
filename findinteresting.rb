@@ -29,6 +29,10 @@ helpers do
     diff = today.map { |service| service.dig(*list) }.compact.sort.uniq - yesterday.map { |service| service.dig(*list) }
     diff.compact.sort.uniq.map { |d| [d, ''] }
   end
+
+  def xss_filter(input_text)
+    input_text.gsub(/[^0-9A-Za-z\ ]/, '')
+  end
 end
 
 get '/' do
@@ -53,8 +57,8 @@ get '/:station' do
   destinations = todays_uniques(services, 'locationDetail', 'destination', 'description').sort
   platforms = todays_uniques(services, 'locationDetail', 'platform')
   service_types = todays_uniques(services, 'serviceType').sort
-  station = data.dig('location', 'name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
-  station_code = data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+  station = data.dig('location', 'name') || xss_filter(params[:station])
+  station_code = data.dig('location', 'crs') || xss_filter(params[:station])
 
   erb :day, :locals => {
               :filter => '',
@@ -83,8 +87,8 @@ get '/:station/unique' do
   destinations = newly_appeared(today_services, yesterday_services, 'locationDetail', 'destination', 'description').sort
   platforms = newly_appeared(today_services, yesterday_services, 'locationDetail', 'platform')
   service_types = newly_appeared(today_services, yesterday_services, 'serviceType')
-  station = today_data.dig('location', 'name') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
-  station_code = today_data.dig('location', 'crs') || params[:station].gsub(/[^0-9A-Za-z\ ]/, '')
+  station = today_data.dig('location', 'name') || xss_filter(params[:station])
+  station_code = today_data.dig('location', 'crs') || xss_filter(params[:station])
 
   erb :day, :locals => {
               :filter => 'new',
@@ -100,52 +104,55 @@ get '/:station/unique' do
       :layout => true
 end
 
-get '/:station/platform/:platform' do
+get '/:station/services' do
+  params[:date] = nil if params[:date] == ''
   data = load_date(params[:date], params[:station])
-  services = data['services'].select { |service| service.dig('locationDetail', 'platform') == params['platform'] }
+  filter_string = "for #{data.dig('location', 'name')}"
+  services = data['services']
+  if params[:platform]
+    services = services.select { |service| service.dig('locationDetail', 'platform') == params[:platform] }
+    filter_string << ", platform #{xss_filter(params[:platform])}"
+  end
+  if params[:origin]
+    services = services.select { |service| service.dig('locationDetail', 'origin', 'description') == params[:origin] }
+    filter_string << ", from #{xss_filter(params[:origin])}"
+  end
+  if params[:destination]
+    services = services.select { |service| service.dig('locationDetail', 'destination', 'description') == params[:destination] }
+    filter_string << ", to #{xss_filter(params[:destination])}"
+  end
+  if params[:operator]
+    services = services.select { |service| service.dig('atocCode') == params[:operator] }
+    filter_string << ", operated by #{xss_filter(params[:operator])}"
+  end
+  if params[:type]
+    services = services.select { |service| service.dig('serviceType') == params[:type] }
+    filter_string << ", of type #{xss_filter(params[:type])}"
+  end
+
   erb :services, :locals => {
                    :services => services,
-                   :filter => "using #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} platform #{params['platform'].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['date']}"
+                   :filter => filter_string
                },
       :layout => true
+end
+
+get '/:station/platform/:platform' do
+  redirect to("/#{params[:station]}/services?platform=#{params[:platform]}&date=#{params[:date]}")
 end
 
 get '/:station/from/:origin' do
-  data = load_date(params[:date], params[:station])
-  services = data['services'].select { |service| service.dig('locationDetail', 'origin', 'description') == params['origin'] }
-  erb :services, :locals => {
-                   :services => services,
-                   :filter => "from #{params['origin'].gsub(/[^0-9A-Za-z\ ]/, '')} via #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['date']}"
-               },
-      :layout => true
+  redirect to("/#{params[:station]}/services?origin=#{params[:origin]}&date=#{params[:date]}")
 end
 
 get '/:station/to/:destination' do
-  data = load_date(params[:date], params[:station])
-  services = data['services'].select { |service| service.dig('locationDetail', 'destination', 'description') == params['destination'] }
-  erb :services, :locals => {
-                   :services => services,
-                   :filter => "to #{params['destination'].gsub(/[^0-9A-Za-z\ ]/, '')} via #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['date']}"
-               },
-      :layout => true
+  redirect to("/#{params[:station]}/services?destination=#{params[:destination]}&date=#{params[:date]}")
 end
 
 get '/:station/operator/:operator' do
-  data = load_date(params[:date], params[:station])
-  services = data['services'].select { |service| service.dig('atocCode') == params['operator'] }
-  erb :services, :locals => {
-                   :services => services,
-                   :filter => "run by #{params[:operator].gsub(/[^0-9A-Za-z\ ]/, '')} from #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['data']}"
-               },
-      :layout => true
+  redirect to("/#{params[:station]}/services?operator=#{params[:operator]}&date=#{params[:date]}")
 end
 
 get '/:station/type/:type' do
-  data = load_date(params[:date], params[:station])
-  services = data['services'].select { |service| service.dig('serviceType') == params['type'] }
-  erb :services, :locals => {
-                   :services => services,
-                   :filter => "#{params[:type].gsub(/[^0-9A-Za-z\ ]/, '')} services from #{params[:station].gsub(/[^0-9A-Za-z\ ]/, '')} for #{data['data']}"
-               },
-      :layout => true
+  redirect to("/#{params[:station]}/services?type=#{params[:type]}&date=#{params[:date]}")
 end
