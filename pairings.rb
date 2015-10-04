@@ -11,12 +11,23 @@ include Helpers
 
 run_date = Date.today
 station = 'LDS'
+client = Twitter::REST::Client.new do |config|
+  config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
+  config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
+  config.access_token        = ENV['TWITTER_ACCESS_TOKEN']
+  config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
+end
+
 ENV['RACK_ENV'] = ENV['RACK_ENV'] || 'development'
 
 #puts "Loading #{station} data for #{run_date} in #{ENV['RACK_ENV']} mode"
 
-departures = get_rtt_workings(run_date, station.upcase, 'departures')['services']
-arrivals = get_rtt_workings(run_date, station.upcase, 'arrivals')['services']
+begin
+  departures = get_rtt_workings(run_date, station.upcase, 'departures')['services']
+  arrivals = get_rtt_workings(run_date, station.upcase, 'arrivals')['services']
+rescue => e
+  client.update("@alicefromonline I couldn't connect to RTT today")
+end
 
 services = merge_services(departures, arrivals)
 
@@ -30,28 +41,29 @@ end.uniq
 
 #puts "#{run_date}: #{pairings.length} unique origin/destination/toc pairings for #{station}"
 
-redis_uri = URI.parse(ENV['REDISTOGO_URL'])
-redis = Redis.new(:host => redis_uri.host, :port => redis_uri.port, :password => redis_uri.password)
+if ENV['REDISTOGO_URL']
+  redis_uri = URI.parse(ENV['REDISTOGO_URL'])
+  redis = Redis.new(:host => redis_uri.host, :port => redis_uri.port, :password => redis_uri.password)
+else
+  redis = Redis.new
+end
 
 new_pairings = []
 
-pairings.each do |p|
-  redis_key = "#{p[:origin].gsub(' ','.')}:#{station}:#{p[:destination].gsub(' ','.')}:#{p[:toc]}"
-  found = redis.getset(redis_key, 1)
-  unless found
-    new_pairings << p
+begin
+  pairings.each do |p|
+    redis_key = "#{p[:origin].gsub(' ', '.')}:#{station}:#{p[:destination].gsub(' ', '.')}:#{p[:toc]}"
+    found = redis.getset(redis_key, 1)
+    unless found
+      new_pairings << p
+    end
+    redis.expire(redis_key, 691200) # 8 days
   end
-  redis.expire(redis_key, 691200) # 8 days
+rescue => e
+  client.update("@alicefromonline I couldn't connect to Redis today")
 end
 
 #puts "#{run_date}: #{new_pairings.length} new services identified for #{station}"
-
-client = Twitter::REST::Client.new do |config|
-  config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
-  config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
-  config.access_token        = ENV['TWITTER_ACCESS_TOKEN']
-  config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
-end
 
 new_pairings.each do |p|
   pairing_services = services.select do |s|
@@ -59,9 +71,8 @@ new_pairings.each do |p|
         s['locationDetail']['destination'][0]['description'] == p[:destination] &&
         s['atocCode'] == p[:toc]
   end
-  service = pairing_services[0]
-  service_rundate = Date.parse(service['runDate'])
-  message =  "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]} http://www.realtimetrains.co.uk/train/#{service['serviceUid']}/#{service_rundate.strftime('%Y/%m/%d')}/advanced"
+  message =  "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]}"
+  message << " https://leedstrains.herokuapp.com/services?date=#{Date.today}&origin=#{p[:origin]}&destination=#{p[:destination]}&operator=#{p[:toc]}"
   puts message
-  client.update(message)
+  client.update(message) unless ENV['RACK_ENV']=='development'
 end
