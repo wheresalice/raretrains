@@ -35,6 +35,7 @@ Run the app
 * Realtime Trains for making the data available
 * Glen for inspiring me to just use local files instead of MongoDB
 * Those of you who've pointed out the bugs, you know who you are
+* data.gov.uk for location data https://data.gov.uk/dataset/naptan
 
 # Contact
 
