@@ -1,0 +1,24 @@
+<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet'/>
+
+
+<div id="map" style="height: 600px"></div>
+
+<script>
+    // Provide your access token
+    L.mapbox.accessToken = 'pk.eyJ1Ijoia2FlcmFzdCIsImEiOiJjaWZwcDh0d24wMWhudHRrbnBtcHU0M2E1In0.EsbB2f-I5XoBIwilIDU5Bg';
+    // Create a map in the div #map
+    var map = L.mapbox.map('map', 'kaerast.cifpp8tnx01iusxlxq6abmgsw');
+
+
+    var line_points = [
+        <% tiplocs.each do |t| %>
+        [<%= t.latitude %>,
+            <%= t.longitude %>],
+        <% end %>
+    ];
+    var polyline_options = {
+        color: '#000'
+    };
+    var polyline = L.polyline(line_points, polyline_options).addTo(map);
+</script>

@@ -156,3 +156,40 @@ end
 get '/:station/type/:type' do
   redirect to("/#{params[:station]}/services?type=#{params[:type]}&date=#{params[:date]}")
 end
+
+get '/map/:service/:date' do
+  class Tiploc
+    include Comparable
+    attr_accessor :latitude, :longitude, :code
+    def initialize(code, lat=nil, lon=nil)
+      @code = code
+      @latitude = lat
+      @longitude = lon
+    end
+    def <=> other
+      @code <=> other.code
+    end
+
+    def == other
+      @code == other.code
+    end
+  end
+
+  service = load_service(params[:service], params[:date])
+  global_tiplocs = {}
+  service_tiplocs = []
+  service['locations'].each {|l| service_tiplocs << Tiploc.new(l['tiploc'])}
+  require 'csv'
+  references = CSV.open('csv/RailReferences.csv', 'r', {:headers => true})
+  references.each do |r|
+    global_tiplocs[r['TiplocCode']] = Tiploc.new(r['TiplocCode'], r['Latitude'], r['Longitude'])
+  end
+
+  enriched_tiplocs = service_tiplocs.map {|t| global_tiplocs[t.code]}
+
+
+  erb :map, :locals => {
+                   :tiplocs => enriched_tiplocs,
+               },
+      :layout => true
+end

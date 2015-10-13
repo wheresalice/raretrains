@@ -18,7 +18,7 @@
       <tbody>
       <% services.each do |service| %>
           <tr>
-            <td><%= service['trainIdentity'] %></td>
+            <td><a href="/map/<%= service['serviceUid'] %>/<%= service['runDate'] %>"><%= service['trainIdentity'] %></a></td>
             <td><%= service['locationDetail']['origin'][0]['description'] %></td>
             <td><%= service['locationDetail']['destination'][0]['description'] %></td>
             <td><%= service['locationDetail']['gbttBookedArrival'] %></td>

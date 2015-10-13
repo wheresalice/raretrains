@@ -16,7 +16,7 @@ module Helpers
       user = ENV['RTT_USER']
       password = ENV['RTT_PASSWORD']
       begin
-        response = HTTParty.get("http://#{user}:#{password}@api.rtt.io/api/v1/json/search/#{station}/#{date.strftime("%Y/%m/%d")}#{'/arrivals' if mode == 'arrivals'}")
+        response = HTTParty.get("https://#{user}:#{password}@api.rtt.io/api/v1/json/search/#{station}/#{date.strftime("%Y/%m/%d")}#{'/arrivals' if mode == 'arrivals'}")
         results = JSON.parse(response.body)
         results['date'] = date
         results['station'] = station
@@ -63,4 +63,24 @@ module Helpers
     return workings
   end
 
+  def xss_filter(input_text)
+    input_text.gsub(/[^0-9A-Za-z\ ]/, '')
+  end
+
+  def load_service(service,date=Date.today.to_s)
+    service = xss_filter(service)
+    date = date.nil? ? Date.today : Date.parse(date)
+    tmp_dir = File.join('tmp', ENV['RACK_ENV'])
+    cache_path = File.join(tmp_dir, "#{service}-#{date.strftime("%Y-%m-%d")}.json")
+
+    if File.exist? cache_path
+      service_data = JSON.parse(File.read(cache_path))
+    else
+      user = ENV['RTT_USER']
+      password = ENV['RTT_PASSWORD']
+      service_data = JSON.parse(HTTParty.get("https://#{user}:#{password}@api.rtt.io/api/v1/json/service/#{service}/#{date.strftime("%Y/%m/%d")}").body)
+      File.write(cache_path, service_data.to_json)
+    end
+    service_data
+  end
 end
