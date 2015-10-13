@@ -2,6 +2,9 @@
 <link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet'/>
 
 
+<% if failed_tiplocs > 0 %>
+    <div class="alert alert-warning">Some of the locations on this service were not found in Naptan<br>Please <a href="https://twitter.com/newleedstrains">Tweet us</a> if this is unexpected.</div>
+<% end %>
 <div id="map" style="height: 600px"></div>
 
 <script>
@@ -13,8 +16,10 @@
 
     var line_points = [
         <% tiplocs.each do |t| %>
+        <% unless t.nil? %>
         [<%= t.latitude %>,
             <%= t.longitude %>],
+        <% end %>
         <% end %>
     ];
     var polyline_options = {

@@ -185,11 +185,16 @@ get '/map/:service/:date' do
     global_tiplocs[r['TiplocCode']] = Tiploc.new(r['TiplocCode'], r['Latitude'], r['Longitude'])
   end
 
-  enriched_tiplocs = service_tiplocs.map {|t| global_tiplocs[t.code]}
+  failed_tiplocs = 0
+  enriched_tiplocs = service_tiplocs.map do |t|
+    failed_tiplocs +=1 if global_tiplocs[t.code].nil?
+    global_tiplocs[t.code]
+  end
 
 
   erb :map, :locals => {
                    :tiplocs => enriched_tiplocs,
+                   :failed_tiplocs => failed_tiplocs
                },
       :layout => true
 end
