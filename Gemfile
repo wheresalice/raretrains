@@ -7,6 +7,8 @@ gem 'httparty'
 gem 'sinatra'
 gem 'puma'
 gem 'sinatra-flash'
+gem 'redis'
+gem 'twitter'
 
 group :test do
   gem 'rack-test'
@@ -14,7 +16,3 @@ group :test do
   gem 'minitest'
 end
 
-group :development do
-  gem 'redis'
-  gem 'twitter'
-end
