@@ -9,8 +9,8 @@ require_relative 'lib/helpers'
 
 include Helpers
 
-run_date = ARGV[0].nil? ? Date.today : Date.parse(ARGV[0])
-station = ARGV[1] || 'LDS'
+run_date = Date.today
+station = 'LDS'
 ENV['RACK_ENV'] = ENV['RACK_ENV'] || 'development'
 
 #puts "Loading #{station} data for #{run_date} in #{ENV['RACK_ENV']} mode"
@@ -30,7 +30,8 @@ end.uniq
 
 #puts "#{run_date}: #{pairings.length} unique origin/destination/toc pairings for #{station}"
 
-redis = Redis.new
+redis_uri = URI.parse(ENV['REDISTOGO_URL'])
+redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 
 new_pairings = []
 
