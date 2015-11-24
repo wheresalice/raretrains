@@ -31,7 +31,7 @@ end.uniq
 #puts "#{run_date}: #{pairings.length} unique origin/destination/toc pairings for #{station}"
 
 redis_uri = URI.parse(ENV['REDISTOGO_URL'])
-redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+redis = Redis.new(:host => redis_uri.host, :port => redis_uri.port, :password => redis_uri.password)
 
 new_pairings = []
 
