@@ -22,7 +22,7 @@ helpers do
   def todays_uniques(services, *list)
     uniques = Hash.new(0)
     services.each { |service| uniques.store(service.dig(*list), uniques[service.dig(*list)] + 1) }
-    return uniques
+    uniques
   end
 
   def newly_appeared(today, yesterday, *list)
@@ -37,7 +37,7 @@ end
 
 get '/' do
   erb :home,
-      :layout => true
+      layout: true
 end
 
 get '/cached' do
@@ -60,27 +60,25 @@ get '/:station' do
   station = data.dig('location', 'name') || xss_filter(params[:station])
   station_code = data.dig('location', 'crs') || xss_filter(params[:station])
 
-  erb :day, :locals => {
-              :filter => '',
-              :day => data['date'],
-              :tocs => tocs,
-              :origins => origins,
-              :destinations => destinations,
-              :platforms => platforms,
-              :service_types => service_types,
-              :station => station,
-              :station_code => station_code
+  erb :day, locals: {
+    filter: '',
+    day: data['date'],
+    tocs: tocs,
+    origins: origins,
+    destinations: destinations,
+    platforms: platforms,
+    service_types: service_types,
+    station: station,
+    station_code: station_code
 
-          },
-      :layout => true
+  },
+            layout: true
 end
 
 get '/:station/unique' do
-
   today_data = load_date(params[:date], params[:station])
   today_services = today_data['services']
   yesterday_services = load_date(params[:date], params[:station], true)['services']
-
 
   tocs = newly_appeared(today_services, yesterday_services, 'atocCode').sort
   origins = newly_appeared(today_services, yesterday_services, 'locationDetail', 'origin', 'description').sort
@@ -90,18 +88,18 @@ get '/:station/unique' do
   station = today_data.dig('location', 'name') || xss_filter(params[:station])
   station_code = today_data.dig('location', 'crs') || xss_filter(params[:station])
 
-  erb :day, :locals => {
-              :filter => 'new',
-              :day => params[:date],
-              :tocs => tocs,
-              :origins => origins,
-              :destinations => destinations,
-              :platforms => platforms,
-              :service_types => service_types,
-              :station => station,
-              :station_code => station_code
-          },
-      :layout => true
+  erb :day, locals: {
+    filter: 'new',
+    day: params[:date],
+    tocs: tocs,
+    origins: origins,
+    destinations: destinations,
+    platforms: platforms,
+    service_types: service_types,
+    station: station,
+    station_code: station_code
+  },
+            layout: true
 end
 
 get '/:station/services' do
@@ -130,11 +128,11 @@ get '/:station/services' do
     filter_string << ", of type #{xss_filter(params[:type])}"
   end
 
-  erb :services, :locals => {
-                   :services => services,
-                   :filter => filter_string
-               },
-      :layout => true
+  erb :services, locals: {
+    services: services,
+    filter: filter_string
+  },
+                 layout: true
 end
 
 get '/:station/platform/:platform' do
@@ -161,16 +159,17 @@ get '/map/:service/:date' do
   class Tiploc
     include Comparable
     attr_accessor :latitude, :longitude, :code
-    def initialize(code, lat=nil, lon=nil)
+    def initialize(code, lat = nil, lon = nil)
       @code = code
       @latitude = lat
       @longitude = lon
     end
-    def <=> other
+
+    def <=>(other)
       @code <=> other.code
     end
 
-    def == other
+    def ==(other)
       @code == other.code
     end
   end
@@ -178,23 +177,22 @@ get '/map/:service/:date' do
   service = load_service(params[:service], params[:date])
   global_tiplocs = {}
   service_tiplocs = []
-  service['locations'].each {|l| service_tiplocs << Tiploc.new(l['tiploc'])}
+  service['locations'].each { |l| service_tiplocs << Tiploc.new(l['tiploc']) }
   require 'csv'
-  references = CSV.open('csv/RailReferences.csv', 'r', {:headers => true})
+  references = CSV.open('csv/RailReferences.csv', 'r', { headers: true })
   references.each do |r|
     global_tiplocs[r['TiplocCode']] = Tiploc.new(r['TiplocCode'], r['Latitude'], r['Longitude'])
   end
 
   failed_tiplocs = 0
   enriched_tiplocs = service_tiplocs.map do |t|
-    failed_tiplocs +=1 if global_tiplocs[t.code].nil?
+    failed_tiplocs += 1 if global_tiplocs[t.code].nil?
     global_tiplocs[t.code]
   end
 
-
-  erb :map, :locals => {
-                   :tiplocs => enriched_tiplocs,
-                   :failed_tiplocs => failed_tiplocs
-               },
-      :layout => true
+  erb :map, locals: {
+    tiplocs: enriched_tiplocs,
+    failed_tiplocs: failed_tiplocs
+  },
+            layout: true
 end

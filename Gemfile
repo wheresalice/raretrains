@@ -1,5 +1,5 @@
 # A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # gem "rails"
 gem 'json'
@@ -15,4 +15,3 @@ group :test do
   gem 'rake'
   gem 'minitest'
 end
-

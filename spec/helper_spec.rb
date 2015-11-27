@@ -1,19 +1,18 @@
 require File.expand_path '../../lib/helpers.rb', __FILE__
 require File.expand_path '../test_setup', __FILE__
 
-
 class MyTest < MiniTest::Unit::TestCase
   include Helpers
 
   def test_merge_services
-    assert_equal merge_services([{'serviceUid' => 'abc123'}], [{'serviceUid' => 'abc123'}]).length, 1
-    assert_equal merge_services([{'serviceUid' => 'abc123'}], [{'serviceUid' => 'xyz456'}]).length, 2
+    assert_equal merge_services([{ 'serviceUid' => 'abc123' }], [{ 'serviceUid' => 'abc123' }]).length, 1
+    assert_equal merge_services([{ 'serviceUid' => 'abc123' }], [{ 'serviceUid' => 'xyz456' }]).length, 2
   end
 
   def test_clean_tmp
     require 'fileutils'
     FileUtils.mkdir_p 'tmp/test'
-    FileUtils.touch 'tmp/test/alice.json', :mtime => Time.now - 60*60*24*100
+    FileUtils.touch 'tmp/test/alice.json', mtime: Time.now - 60 * 60 * 24 * 100
     clean_tmp
     refute File.exist? 'tmp/test/alice.json'
   end
@@ -26,7 +25,7 @@ class MyTest < MiniTest::Unit::TestCase
 
   def test_load_date_loads_services
     assert_equal load_date('2015-08-29')['services'].length, 2
-    #assert_equal load_date('2015-08-28')['services'].length, 2
+    # assert_equal load_date('2015-08-28')['services'].length, 2
   end
 
   def test_get_rtt_workings
@@ -37,6 +36,5 @@ class MyTest < MiniTest::Unit::TestCase
     assert_equal get_rtt_workings(Date.parse('2015-08-29'), 'LDS', 'arrivals')['services'].length, 1
 
     assert_equal get_rtt_workings(Date.parse('2015-08-29'))['services'].length, 1
-
   end
 end
