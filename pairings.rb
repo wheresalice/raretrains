@@ -70,7 +70,7 @@ new_pairings.each do |p|
     s['atocCode'] == p[:toc]
   end
   message =  "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]}"
-  message << " https://leedstrains.herokuapp.com/services?date=#{Date.today}&origin=#{p[:origin]}&destination=#{p[:destination]}&operator=#{p[:toc]}"
+  message << " https://leedstrains.herokuapp.com/LDS/services?date=#{Date.today}&origin=#{p[:origin]}&destination=#{p[:destination]}&operator=#{p[:toc]}"
   puts message
   client.update(message) unless ENV['RACK_ENV'] == 'development'
 end
