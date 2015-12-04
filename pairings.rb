@@ -4,6 +4,7 @@ require 'redis'
 require 'json'
 require 'date'
 require 'twitter'
+require 'uri'
 
 require_relative 'lib/helpers'
 
@@ -69,8 +70,8 @@ new_pairings.each do |p|
     s['locationDetail']['destination'][0]['description'] == p[:destination] &&
     s['atocCode'] == p[:toc]
   end
-  message =  "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]}"
-  message << " https://leedstrains.herokuapp.com/LDS/services?date=#{Date.today}&origin=#{p[:origin]}&destination=#{p[:destination]}&operator=#{p[:toc]}"
+  message =  "#{run_date}: #{pairing_services.length} services from #{p[:origin]} to #{p[:destination]} run by #{p[:toc]} "
+  message << URI.encode("https://leedstrains.herokuapp.com/LDS/services?date=#{Date.today}&origin=#{p[:origin]}&destination=#{p[:destination]}&operator=#{p[:toc]}")
   puts message
   client.update(message) unless ENV['RACK_ENV'] == 'development'
 end
