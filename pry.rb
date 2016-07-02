@@ -1,6 +1,6 @@
 require 'pry'
-require File.expand_path '../lib/helpers.rb', __FILE__
-include Helpers
+require File.expand_path '../lib/rare_trains.rb', __FILE__
+include RareTrains
 ENV['RACK_ENV'] = 'development'
 load_date('2015-08-29')
 

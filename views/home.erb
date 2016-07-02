@@ -1,10 +1,10 @@
 <p>Welcome to Leeds Trains.  To load a summary for a given day, use the following form.</p>
-<form>
+<form action="/" method="POST">
   <label for="date">Date<input type="date" name="date" id="date"></label> (leave blank for today)<br>
   <label for="station">Station code<input type="text" name="station" value="LDS" id="station"></label><br>
-  <label for="unique">Show only services not appearing yesterday?<input type="checkbox" id="unique"></label><br>
+  <label for="unique">Show only services not appearing yesterday?<input type="checkbox" id="unique" name="unique"></label><br>
 
-  <button type="button" id="station_button" class="btn btn-primary">Display</button>
+  <input type="submit" id="station_button" class="btn btn-primary" value="Display">
 </form>
 
 <p>This site only covers publicly advertised passenger services in the UK.  Services such as freight, empty carriage movements, and some specials will not appear.</p>

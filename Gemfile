@@ -14,4 +14,5 @@ group :test do
   gem 'rack-test'
   gem 'rake'
   gem 'minitest'
+  gem 'rspec'
 end

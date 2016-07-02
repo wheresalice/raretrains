@@ -3,6 +3,7 @@ GEM
   specs:
     addressable (2.4.0)
     buftok (0.2.0)
+    diff-lcs (1.2.5)
     domain_name (0.5.20160615)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.10)
@@ -35,6 +36,19 @@ GEM
       rack (>= 1.0)
     rake (11.2.2)
     redis (3.3.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.0)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
     simple_oauth (0.3.1)
     sinatra (1.4.7)
       rack (~> 1.5)
@@ -70,6 +84,7 @@ DEPENDENCIES
   rack-test
   rake
   redis
+  rspec
   sinatra
   sinatra-flash
   twitter
