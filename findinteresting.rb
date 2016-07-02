@@ -102,9 +102,17 @@ get '/:station/services' do
     services = services.select { |service| service.dig('locationDetail', 'origin', 'description') == params[:origin] }
     filter_string << ", from #{xss_filter(params[:origin])}"
   end
+  if params[:from]
+    services = services.select { |service| service.dig('locationDetail', 'origin', 'description') == params[:from] }
+    filter_string << ", from #{xss_filter(params[:from])}"
+  end
   if params[:destination]
     services = services.select { |service| service.dig('locationDetail', 'destination', 'description') == params[:destination] }
     filter_string << ", to #{xss_filter(params[:destination])}"
+  end
+  if params[:to]
+    services = services.select { |service| service.dig('locationDetail', 'destination', 'description') == params[:to] }
+    filter_string << ", to #{xss_filter(params[:to])}"
   end
   if params[:operator]
     services = services.select { |service| service.dig('atocCode') == params[:operator] }
