@@ -33,15 +33,16 @@ class TimeTable
     tmp_file = '%s-%s.json' % [station, date.strftime('%Y-%m-%d')]
     cache_path = File.join(tmp_dir, tmp_file)
     if File.exist?(cache_path)
-      return ::JSON.parse(File.read(cache_path))
+      station_workings = ::JSON.parse(File.read(cache_path))
     else
       base_url = 'https://%{user}:%{password}@api.rtt.io/api/v1/json/search/%{station}/%{date}'.% user: ENV['RTT_USER'], password: ENV['RTT_PASSWORD'], station: self.station, date: self.date.strftime('%Y/%m/%d')
       departures = ::JSON.parse(HTTParty.get(base_url).body)
       arrivals = ::JSON.parse(HTTParty.get(base_url << '/arrivals').body)
       station_workings = merge_services(departures, arrivals)
       File.write(cache_path, station_workings.to_json)
-      return station_workings
     end
+    station_workings['services'].sort_by! {|h| h['locationDetail']['gbttBookedArrival'] || h['locationDetail']['gbttBookedDeparture']}
+    return station_workings
   end
 
   def [](key)
