@@ -40,7 +40,7 @@ get '/:station' do
   platforms = data.unique('locationDetail', 'platform')
   service_types = data.unique('serviceType')
   station = data.dig('location', 'name') || station
-  station_code = data.dig('location', 'crs') || data.dig('location', 'tiploc') || station
+  station_code = data.code
 
   erb :day, locals: {
       filter: '',
@@ -71,7 +71,7 @@ get '/:station/unique' do
   platforms = newly_appeared(today_services, yesterday_services, 'locationDetail', 'platform')
   service_types = newly_appeared(today_services, yesterday_services, 'serviceType')
   station = todays_data.dig('location', 'name') || xss_filter(params[:station])
-  station_code = todays_data.dig('location', 'crs')
+  station_code = todays_data.code
 
   erb :day, locals: {
       filter: 'new',

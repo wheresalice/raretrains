@@ -20,6 +20,13 @@ class TimeTable
     @hash = get_rtt_workings
   end
 
+  def code
+    code = self.dig('location', 'crs')
+    code = self.dig('location', 'tiploc') if code.nil? || code.empty?
+    code = @station if code.nil? || code.empty?
+    code
+  end
+
   def get_rtt_workings
     environment = ENV['RACK_ENV'] || 'development'
     tmp_dir = File.join('tmp', environment)
