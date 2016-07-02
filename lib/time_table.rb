@@ -73,8 +73,8 @@ class TimeTable
 
   private
   def merge_services(departures, arrivals)
-    departures_services = ::Hash[departures['services'].map { |h| [h['serviceUid'], h] }]
-    arrivals_services = ::Hash[arrivals['services'].map { |h| [h['serviceUid'], h] }]
+    departures_services = ::Hash[Array(departures['services']).map { |h| [h['serviceUid'], h] }]
+    arrivals_services = ::Hash[Array(arrivals['services']).map { |h| [h['serviceUid'], h] }]
     merged_services = departures_services.merge(arrivals_services).values
     departures['services'] = merged_services
     return departures
