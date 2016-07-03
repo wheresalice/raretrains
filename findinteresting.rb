@@ -15,7 +15,7 @@ post '/' do
   station = xss_filter(params[:station])
   station = 'LDS' if station.empty?
   date = xss_filter(params[:date])
-  if params[:unique] == 'on'
+  if params[:unique_with_count] == 'on'
     unique = true
   else
     unique = false
@@ -34,11 +34,11 @@ get '/:station' do
   date = parse_date(params[:date])
   data = TimeTable.new(date, station)
 
-  tocs = data.unique('atocCode')
-  origins = data.unique('locationDetail', 'origin', 'description')
-  destinations = data.unique('locationDetail', 'destination', 'description')
-  platforms = data.unique('locationDetail', 'platform')
-  service_types = data.unique('serviceType')
+  tocs = data.unique_with_count('atocCode')
+  origins = data.unique_with_count('locationDetail', 'origin', 'description')
+  destinations = data.unique_with_count('locationDetail', 'destination', 'description')
+  platforms = data.unique_with_count('locationDetail', 'platform')
+  service_types = data.unique_with_count('serviceType')
   station = data.dig('location', 'name') || station
   station_code = data.code
 

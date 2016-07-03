@@ -58,10 +58,16 @@ class TimeTable
     self.hash['services'] = self.hash['services'] - x.to_hash['services']
   end
 
-  def unique(*list)
+  def unique_with_count(*list)
     uniques = Hash.new(0)
     self.hash['services'].each { |service| uniques.store(service.dig(*list), uniques[service.dig(*list)] + 1) }
     uniques.sort_by &:to_s # @TODO this'll do weird things for numbers
+  end
+
+  def unique(*list)
+    uniques = []
+    self.hash['services'].each {|service| uniques << service.dig(*list)}
+    uniques.uniq().sort
   end
 
   def dig(*path)
