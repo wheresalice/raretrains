@@ -61,7 +61,7 @@ class TimeTable
   def unique(*list)
     uniques = Hash.new(0)
     self.hash['services'].each { |service| uniques.store(service.dig(*list), uniques[service.dig(*list)] + 1) }
-    uniques.sort
+    uniques.sort_by &:to_s # @TODO this'll do weird things for numbers
   end
 
   def dig(*path)
