@@ -15,7 +15,7 @@ post '/' do
   station = xss_filter(params[:station])
   station = 'LDS' if station.empty?
   date = xss_filter(params[:date])
-  if params[:unique_with_count] == 'on'
+  if params[:unique] == 'on'
     unique = true
   else
     unique = false
