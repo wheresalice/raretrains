@@ -1,14 +1,29 @@
-<p>Welcome to Leeds Trains.  To load a summary for a given day, use the following form.</p>
-<form action="/" method="POST">
-  <label for="date">Date<input type="date" name="date" id="date"></label> (leave blank for today)<br>
-  <label for="station">Station code<input type="text" name="station" value="LDS" id="station"></label><br>
-  <label for="unique">Show only services not appearing yesterday?<input type="checkbox" id="unique" name="unique"></label><br>
+<p>Welcome to Leeds Trains. To load a summary for a given day, use the following form.</p>
+<form action="/" method="POST" class="form">
 
-  <input type="submit" id="station_button" class="btn btn-primary" value="Display">
+  <fieldset class="form-group">
+    <label for="date">Date</label>
+    <input type="date" name="date" id="date">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="station">Station code</label>
+    <input type="text" name="station" value="LDS" id="station">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="unique">Show only new</label>
+    <input type="checkbox" id="unique" name="unique">
+  </fieldset>
+  <div class="form-actions">
+    <input type="submit" id="station_button" class="btn btn-primary" value="Display">
+  </div>
 </form>
 
-<p>This site only covers publicly advertised passenger services in the UK.  Services such as freight, empty carriage movements, and some specials will not appear.</p>
+<p>This site only covers publicly advertised passenger services in the UK. Services such as freight, empty carriage
+  movements, and some specials will not appear.</p>
 
-<p>For any given station, you will find listings of operators, origins, final destinations, and platforms in use for the given date.  The data may not always be correct, particularly platform listings.  You should be able to request data as far back as a week and up to 90 days in the future.</p>
+<p>For any given station, you will find listings of operators, origins, final destinations, and platforms in use for the
+  given date. The data may not always be correct, particularly platform listings. You should be able to request data as
+  far back as a week and up to 90 days in the future.</p>
 
-<p>Data gets cached forever, but will be erased after 30 minutes of inactivity.  Provided the site continues to see little traffic, this seems to work well.  It may need rethinking in the future.</p>
+<p>Data gets cached forever, but will be erased after 30 minutes of inactivity. Provided the site continues to see
+  little traffic, this seems to work well. It may need rethinking in the future.</p>
