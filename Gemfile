@@ -9,6 +9,7 @@ gem 'puma'
 gem 'sinatra-flash'
 gem 'redis'
 gem 'twitter'
+gem 'aws-sdk'
 
 group :test do
   gem 'rack-test'
