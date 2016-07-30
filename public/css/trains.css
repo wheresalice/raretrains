@@ -55,3 +55,7 @@ table th.sort-up:after {
     margin-top: -20px;
     font-size: 15px;
 }
+
+#map{
+    height: 600px;
+}

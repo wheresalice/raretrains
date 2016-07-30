@@ -7,7 +7,7 @@ require File.expand_path '../lib/time_table.rb', __FILE__
 require File.expand_path '../lib/tiploc.rb', __FILE__
 
 before do
-  headers "Content-Security-Policy-Report-Only" => "default-src 'self' https://api.mapbox.com:443; connect-src *.tiles.mapbox.com; img-src 'self' *.tiles.mapbox.com api.mapbox.com data:; report-uri https://leedstrains.report-uri.io/r/default/csp/reportOnly"
+  headers "Content-Security-Policy-Report-Only" => "default-src 'self'; report-uri https://leedstrains.report-uri.io/r/default/csp/reportOnly"
   headers "X-Frame-Options" => "DENY"
   headers "X-Xss-Protection" => "1; mode=block"
 end
@@ -137,6 +137,7 @@ get '/:station/services' do
 end
 
 get '/map/:service/:date' do
+  headers "Content-Security-Policy-Report-Only" => "default-src 'self' https://api.mapbox.com:443; script-src 'self' 'unsafe-inline' api.mapbox.com;connect-src *.tiles.mapbox.com; img-src 'self' *.tiles.mapbox.com api.mapbox.com data:; report-uri https://leedstrains.report-uri.io/r/default/csp/reportOnly"
   date = Date.parse(xss_filter(params[:date]))
   service = xss_filter(params[:service])
   service_data = Service.new(service, date)
