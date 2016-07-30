@@ -6,6 +6,12 @@ require File.expand_path '../lib/service.rb', __FILE__
 require File.expand_path '../lib/time_table.rb', __FILE__
 require File.expand_path '../lib/tiploc.rb', __FILE__
 
+before do
+  headers "Content-Security-Policy-Report-Only" => "default-src 'self' 'unsafe-inline' https://api.mapbox.com:443; connect-src *.tiles.mapbox.com; img-src 'self' *.tiles.mapbox.com api.mapbox.com data:; report-uri https://leedstrains.report-uri.io/r/default/csp/reportOnly"
+  headers "X-Frame-Options" => "DENY"
+  headers "X-Xss-Protection" => "1; mode=block"
+end
+
 get '/' do
   erb :home,
       layout: true
