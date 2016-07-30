@@ -18,3 +18,7 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
+
+$('table').each(function() {
+    new Tablesort(this);
+});
