@@ -13,13 +13,13 @@ To run this locally you will need to set the following environment variables
 * RTT_USER
 * RTT_PASSWORD
 
-both of these are available from realtimetrains.co.uk
+both of these are available from realtimetrains.co.uk, ideally added to `.env` file.
 
 if you do not have an api key, then you can generate some minimal fake data for Leeds for the current day using ./bin/generate_dev_data.rb
 
 # Contributing
 
-You'll need ruby 2.2.something.
+You'll need ruby 2.2.10.
 
 Install dependencies
 

@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.2.4"
+ruby "2.2.10"
 
 # gem "rails"
 gem 'json'
@@ -16,4 +16,8 @@ group :test do
   gem 'rake'
   gem 'minitest'
   gem 'rspec'
+end
+
+group :development do
+  gem 'pry'
 end
