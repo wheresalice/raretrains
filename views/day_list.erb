@@ -16,7 +16,7 @@
           <tbody>
           <% items.each do |item| %>
               <tr>
-                <td><a href="/<%= station_code %>/services?<%= uri_part %>=<%= item[0] %>&date=<%= day %>" class="serviceslink"><%= item[0] %></a></td>
+                <td><a href="/<%= station_code %>/services?<%= uri_part %>=<%= URI.encode(item[0].to_s, /\W/) %>&date=<%= day %>" class="serviceslink"><%= item[0] %></a></td>
                 <td><%= item[1] %></td>
               </tr>
           <% end %>

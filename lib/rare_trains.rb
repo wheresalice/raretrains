@@ -1,3 +1,5 @@
+require 'uri'
+
 def newly_appeared(today, yesterday, *list)
   diff = today.map { |service| service.dig(*list) }.compact.sort.uniq - yesterday.map { |service| service.dig(*list) }
   diff.compact.sort.uniq.map { |d| [d, ''] }
