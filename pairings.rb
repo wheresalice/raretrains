@@ -24,7 +24,9 @@ begin
   timetable = TimeTable.new(run_date, station)
 rescue => e
   puts 'failed to connect to RTT'
-  client.update("@alicefromonline I couldn't connect to RTT today") unless ENV['RACK_ENV'] == 'development'
+  puts e
+  # client.update("@alicefromonline I couldn't connect to RTT today") unless ENV['RACK_ENV'] == 'development'
+  exit 1
 end
 services = timetable['services']
 
